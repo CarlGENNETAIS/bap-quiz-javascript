@@ -1,6 +1,9 @@
 div#quiz {
   padding: 10px 40px 40px 40px; }
 
+.panel {
+  margin-top: 2em; }
+
 .wrongAnswer {
   color: red;
   text-decoration: line-through; }

@@ -2,12 +2,15 @@ div#quiz {
 	padding: 10px 40px 40px 40px;
 }
 
+.panel {
+	margin-top: 2em;
+}
 .wrongAnswer {
 	color: red;
 	text-decoration: line-through;
 	&::after {
 		font-family: FontAwesome;
-		content: "  \f00d";
+		content: "  \f00d"; // X
 	}
 }
 
@@ -16,7 +19,7 @@ div#quiz {
 	font-weight: bold;
 	&::after {
 		font-family: FontAwesome;
-		content: "  \f00c";
+		content: "  \f00c"; // V
 	}
 }
 
