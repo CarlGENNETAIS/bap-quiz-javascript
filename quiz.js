@@ -70,7 +70,7 @@ function checkAnswer() {
     }
     else {
     	_("labelRep"+choice).className += "wrongAnswer";
-    	_("labelRep"+questions[pos][questions[pos].length-1]).className += "correctAnswer";
+    	_("labelRep"+questions[pos][questions[pos].length-1]).className += "rightAnswer";
     }
 }
 window.addEventListener("load", renderQuestion, false);

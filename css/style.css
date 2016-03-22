@@ -5,9 +5,13 @@ div#test {
 .wrongAnswer {
   color: red;
   text-decoration: line-through; }
+  .wrongAnswer::after {
+    font-family: FontAwesome;
+    content: "  \f00d"; }
 
 .rightAnswer {
-  color: green; }
-
-.correctAnswer {
-  color: darkgreen; }
+  color: green;
+  font-weight: bold; }
+  .rightAnswer::after {
+    font-family: FontAwesome;
+    content: "  \f00c"; }

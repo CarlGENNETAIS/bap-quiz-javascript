@@ -1,17 +1,23 @@
 div#test {
-    border: #000 1px solid;
-    padding: 10px 40px 40px 40px;
+	border: #000 1px solid;
+	padding: 10px 40px 40px 40px;
 }
 
 .wrongAnswer {
-    color: red;
-    text-decoration: line-through;
+	color: red;
+	text-decoration: line-through;
+	&::after {
+		font-family: FontAwesome;
+		content: "  \f00d";
+	}
 }
 
 .rightAnswer {
 	color: green;
+	font-weight: bold;
+	&::after {
+		font-family: FontAwesome;
+		content: "  \f00c";
+	}
 }
 
-.correctAnswer {
-	color: darkgreen;
-}
