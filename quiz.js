@@ -32,13 +32,13 @@ function renderQuestion() {
     // test.innerHTML = "<p>Cette question a " + (questions[pos].length - 2) + " réponses possibles</p>";
     // affichage des choix de réponses
     for (var i = 1; i <= questions[pos].length - 2; i++) {
-        test.innerHTML += "<label><input type='radio' name='choices' value='"
+        test.innerHTML += "<div class='radio'><label><input type='radio' name='choices' value='"
         + String.fromCharCode(65 - 1 + i) + "'> "
         + questions[pos][i] +
         "</label><br>";
     }
+    test.innerHTML += "<br><button onclick='checkAnswer()'>Submit Answer</button><br><br>";
     test.innerHTML += "<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>"
-    test.innerHTML += "<br><button onclick='checkAnswer()'>Submit Answer</button>";
 }
 
 function checkAnswer() {
