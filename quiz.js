@@ -1,6 +1,6 @@
 // pos = position ds le quiz
 var pos = 0,
-test, titre_test, question, choice, choices, chA, chB, chC, correct = 0;
+quiz, titre_quiz, question, choice, choices, chA, chB, chC, correct = 0;
 
 //TODO : gerer les reponses multiples ("AB", checkbox)
 //TODO : mettre réponses dans base de données
@@ -18,31 +18,32 @@ function _(x) {
 
 
 function renderQuestion() {
-	test = _("test");
+	quiz = _("quiz");
 	if (pos >= questions.length) {
-		test.innerHTML = "<h2>Votre score est de " + correct + " / " + questions.length + ".</h2>";
-		_("titre_test").innerHTML = "Test terminé";
+		quiz.innerHTML = "<h2>Votre score est de " + correct + " / " + questions.length + ".</h2>";
+		quiz.innerHTML += "<br><button onclick='window.location.reload()' type='button' class='btn btn-default'>Refaire le test</button><br><br>";
+		_("titre_quiz").innerHTML = "Quiz terminé";
 		pos = 0;
 		correct = 0;
 		return false;
 	}
     // Affichage du titre
-    _("titre_test").innerHTML = "Question " + (pos + 1) + " sur " + questions.length;
+    _("titre_quiz").innerHTML = "Question " + (pos + 1) + " sur " + questions.length;
     // Affichage de la question
-    test.innerHTML = "<h3>" + questions[pos][0] + "</h3>";
-    // test.innerHTML = "<p>Cette question a " + (questions[pos].length - 2) + " réponses possibles</p>";
+    quiz.innerHTML = "<h3>" + questions[pos][0] + "</h3>";
     // affichage des choix de réponses
     for (var i = 1; i <= questions[pos].length - 2; i++) {
-    	test.innerHTML += "<div class='radio'><label id='labelRep"
+    	quiz.innerHTML += "<div class='radio'><label id='labelRep"
     	+ String.fromCharCode(65 - 1 + i)
     	+ "'><input type='radio' name='choices' value='"
     	+ String.fromCharCode(65 - 1 + i) + "'> "
     	+ questions[pos][i] +
     	"</label><br>";
     }
-    // test.innerHTML += "<br><button onclick='checkAnswer()'>Vérifier réponse</button><br><br>";
-    test.innerHTML += "<br><button id='button1' onclick='buttonPressed()' type='button' class='btn btn-primary'>Valider</button><br><br>";
-    test.innerHTML += "<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>"
+    // Boutton valider
+    quiz.innerHTML += "<br><button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button><br><br>";
+    // Message d'erreur si pas de reponse selectionne (cache par defaut)
+    quiz.innerHTML += "<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>"
 }
 
 function buttonPressed() {
@@ -50,11 +51,13 @@ function buttonPressed() {
 	if (getChoice() != 0) {
 		_("messageErreur").style.display = 'none';
 		if (elem.firstChild.data == "Valider") {
+			elem.className = "btn btn-primary";
 			elem.firstChild.data = "Question suivante >";
 			return checkAnswer();
 		}
 		else {
 			elem.firstChild.data = "Valider";
+			elem.className = "btn btn-success";
 			return nextQuestion();
 		}
 	}
@@ -104,6 +107,5 @@ function getChoice() {
 }
 
 
-
-
+// Lance le quiz une premiere fois au chargement de la page
 window.addEventListener("load", renderQuestion, false);
