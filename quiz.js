@@ -23,6 +23,7 @@ function renderQuestion() {
 		quiz.innerHTML = "<h2>Votre score est de " + correct + " / " + questions.length + ".</h2>";
 		quiz.innerHTML += "<button onclick='window.location.reload()' type='button' class='btn btn-default'>Refaire le test</button>";
 		_("titre_quiz").innerHTML = "Quiz terminé";
+		displayProgress();
 		pos = 0;
 		correct = 0;
 		return false;
@@ -30,20 +31,36 @@ function renderQuestion() {
     // Affichage du titre
     _("titre_quiz").innerHTML = "Question " + (pos + 1) + " sur " + questions.length;
     $("#quiz").fadeOut(400, function() {
-    // Affichage de la question
-    $(this).html("<h3>" + questions[pos][0] + "</h3>");
-    // affichage des choix de réponses
-    for (var i = 1; i <= questions[pos].length - 2; i++) {
-    	var letter = String.fromCharCode(65 - 1 + i);
-    	$(this).append("<div class='radio'><label id='labelRep"+ letter
-    		+ "'><input type='radio' name='choices' value='"+ letter + "'> "
-    		+ questions[pos][i] + "</label>");
+	    // Affichage de la question
+	    $(this).html("<h3>" + questions[pos][0] + "</h3>");
+	    // affichage des choix de réponses
+	    for (var i = 1; i <= questions[pos].length - 2; i++) {
+	    	var letter = String.fromCharCode(65 - 1 + i);
+	    	$(this).append("<div class='radio'><label id='labelRep"+ letter
+	    		+ "'><input type='radio' name='choices' value='"+ letter + "'> "
+	    		+ questions[pos][i] + "</label>");
+	    }
+	    // Bouton valider
+	    $(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
+	    // Message d'erreur si pas de reponse selectionne (cache par defaut)
+	    $(this).append("<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>").fadeIn(400);
+	})
+    // Affichage barre de progression
+    displayProgress();
+   
+}
+
+function displayProgress() {
+ var p = (pos / questions.length * 100);
+ if (p != 100) {
+    $(".progress").html("<div class='progress-bar progress-bar-striped' role='progressbar' aria-valuenow="
+    	+ p + " aria-valuemin='0' aria-valuemax='100' style='min-width:2em;width: "
+    	+ p + "%;'>"
+    	+ p + "%</span> </div>");	
     }
-    // Boutton valider
-    $(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
-    // Message d'erreur si pas de reponse selectionne (cache par defaut)
-    $(this).append("<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>").fadeIn(400);
-})
+    else {
+    $(".progress").html("<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100' style='width: 100%'> 100%</span> </div>");
+    }
 }
 
 function buttonPressed() {
