@@ -2,3 +2,16 @@ div#test {
     border: #000 1px solid;
     padding: 10px 40px 40px 40px;
 }
+
+.wrongAnswer {
+    color: red;
+    text-decoration: line-through;
+}
+
+.rightAnswer {
+	color: green;
+}
+
+.correctAnswer {
+	color: darkgreen;
+}
