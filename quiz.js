@@ -21,7 +21,7 @@ function renderQuestion() {
 	quiz = _("quiz");
 	if (pos >= questions.length) {
 		quiz.innerHTML = "<h2>Votre score est de " + correct + " / " + questions.length + ".</h2>";
-		quiz.innerHTML += "<br><button onclick='window.location.reload()' type='button' class='btn btn-default'>Refaire le test</button><br><br>";
+		quiz.innerHTML += "<button onclick='window.location.reload()' type='button' class='btn btn-default'>Refaire le test</button>";
 		_("titre_quiz").innerHTML = "Quiz terminé";
 		pos = 0;
 		correct = 0;
@@ -30,20 +30,22 @@ function renderQuestion() {
     // Affichage du titre
     _("titre_quiz").innerHTML = "Question " + (pos + 1) + " sur " + questions.length;
     // Affichage de la question
-    quiz.innerHTML = "<h3>" + questions[pos][0] + "</h3>";
     // affichage des choix de réponses
-    for (var i = 1; i <= questions[pos].length - 2; i++) {
-    	quiz.innerHTML += "<div class='radio'><label id='labelRep"
-    	+ String.fromCharCode(65 - 1 + i)
-    	+ "'><input type='radio' name='choices' value='"
-    	+ String.fromCharCode(65 - 1 + i) + "'> "
-    	+ questions[pos][i] +
-    	"</label><br>";
-    }
+    $("#quiz").fadeOut(400, function() {
+    	$(this).html("<h3>" + questions[pos][0] + "</h3>");
+    	for (var i = 1; i <= questions[pos].length - 2; i++) {
+    		var letter = String.fromCharCode(65 - 1 + i);
+    		$(this).append("<div class='radio'><label id='labelRep"+ letter
+    			+ "'><input type='radio' name='choices' value='"+ letter + "'> "
+    			+ questions[pos][i] + "</label>");
+    	}
+    	$(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
+    	$(this).append("<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>").fadeIn(400);
+    })
     // Boutton valider
-    quiz.innerHTML += "<br><button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button><br><br>";
+    // quiz.innerHTML += ;
     // Message d'erreur si pas de reponse selectionne (cache par defaut)
-    quiz.innerHTML += "<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>"
+    // quiz.innerHTML += 
 }
 
 function buttonPressed() {
