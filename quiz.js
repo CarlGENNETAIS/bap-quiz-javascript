@@ -29,23 +29,21 @@ function renderQuestion() {
 	}
     // Affichage du titre
     _("titre_quiz").innerHTML = "Question " + (pos + 1) + " sur " + questions.length;
-    // Affichage de la question
-    // affichage des choix de réponses
     $("#quiz").fadeOut(400, function() {
-    	$(this).html("<h3>" + questions[pos][0] + "</h3>");
-    	for (var i = 1; i <= questions[pos].length - 2; i++) {
-    		var letter = String.fromCharCode(65 - 1 + i);
-    		$(this).append("<div class='radio'><label id='labelRep"+ letter
-    			+ "'><input type='radio' name='choices' value='"+ letter + "'> "
-    			+ questions[pos][i] + "</label>");
-    	}
-    	$(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
-    	$(this).append("<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>").fadeIn(400);
-    })
+    // Affichage de la question
+    $(this).html("<h3>" + questions[pos][0] + "</h3>");
+    // affichage des choix de réponses
+    for (var i = 1; i <= questions[pos].length - 2; i++) {
+    	var letter = String.fromCharCode(65 - 1 + i);
+    	$(this).append("<div class='radio'><label id='labelRep"+ letter
+    		+ "'><input type='radio' name='choices' value='"+ letter + "'> "
+    		+ questions[pos][i] + "</label>");
+    }
     // Boutton valider
-    // quiz.innerHTML += ;
+    $(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
     // Message d'erreur si pas de reponse selectionne (cache par defaut)
-    // quiz.innerHTML += 
+    $(this).append("<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>").fadeIn(400);
+})
 }
 
 function buttonPressed() {
