@@ -16,6 +16,7 @@ function _(x) {
 	return document.getElementById(x);
 }
 
+
 function renderQuestion() {
 	test = _("test");
 	if (pos >= questions.length) {
@@ -39,9 +40,27 @@ function renderQuestion() {
     	+ questions[pos][i] +
     	"</label><br>";
     }
-    test.innerHTML += "<br><button onclick='checkAnswer()'>Vérifier réponse</button><br><br>";
-    test.innerHTML += "<br><button onclick='nextQuestion()'>Question suivante</button><br><br>";
+    // test.innerHTML += "<br><button onclick='checkAnswer()'>Vérifier réponse</button><br><br>";
+    test.innerHTML += "<br><button id='button1' onclick='buttonPressed()' type='button' class='btn btn-primary'>Valider</button><br><br>";
     test.innerHTML += "<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>"
+}
+
+function buttonPressed() {
+	var elem = _("button1");
+	if (getChoice() != 0) {
+		_("messageErreur").style.display = 'none';
+		if (elem.firstChild.data == "Valider") {
+			elem.firstChild.data = "Question suivante >";
+			return checkAnswer();
+		}
+		else {
+			elem.firstChild.data = "Valider";
+			return nextQuestion();
+		}
+	}
+	else {
+		return false;
+	}
 }
 
 function nextQuestion() {
@@ -49,22 +68,32 @@ function nextQuestion() {
 	renderQuestion();
 }
 
-function checkAnswer() {
+function getChoice() {
 	choices = document.getElementsByName("choices");
 	choice = 0;
+	for (var i = 0; i < choices.length; i++) {
+		if (choices[i].checked) {
+			choice = choices[i].value;
+		}
+	}
+     // si pas de case choisie
+     if (choice == 0) {
+     	_("messageErreur").style.display = 'inline-block';
+     }
+     return choice;
+ }
+
+ function checkAnswer() {
+ 	choices = document.getElementsByName("choices");
+ 	choice = getChoice();
     // on recupere la case cochée
     for (var i = 0; i < choices.length; i++) {
     	if (choices[i].checked) {
     		choice = choices[i].value;
     	}
     }
-    // si pas de case choisie
-    if (choice == 0) {
-    	_("messageErreur").style.display = 'inline-block';
-    	return false;
-    }
     // si le choix correspond a la bonne reponse
-    else if (choice == questions[pos][questions[pos].length-1]) {
+    if (choice == questions[pos][questions[pos].length-1]) {
     	correct++;
     	_("labelRep"+choice).className += "rightAnswer";
     }
@@ -73,4 +102,8 @@ function checkAnswer() {
     	_("labelRep"+questions[pos][questions[pos].length-1]).className += "rightAnswer";
     }
 }
+
+
+
+
 window.addEventListener("load", renderQuestion, false);
