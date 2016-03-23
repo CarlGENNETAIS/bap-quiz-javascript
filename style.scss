@@ -20,7 +20,6 @@
 
 .rightAnswer {
     color: green;
-    font-weight: bold;
     &::after {
         font-family: FontAwesome;
         content: "  \f00c"; // V
@@ -56,3 +55,8 @@ form {
         }
     }
 }
+
+
+.green {color: green; }
+.orange {color: orange; }
+.red {color: red; }

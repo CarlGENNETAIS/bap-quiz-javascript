@@ -14,8 +14,7 @@
     text-decoration: none; }
 
 .rightAnswer {
-  color: green;
-  font-weight: bold; }
+  color: green; }
   .rightAnswer::after {
     font-family: FontAwesome;
     content: "  \f00c";
@@ -40,3 +39,12 @@ form {
       height: 1.5em; }
     form .radio label:hover {
       background: rgba(51, 122, 183, 0.28); }
+
+.green {
+  color: green; }
+
+.orange {
+  color: orange; }
+
+.red {
+  color: red; }

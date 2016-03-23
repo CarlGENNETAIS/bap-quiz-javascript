@@ -7,7 +7,8 @@ var pos = 0,
     choice = 0,
     trueAnswer = 0,
     score = 0,
-    delai = 0; // delai en secondes avant la nouvelle question
+    delaiMax = 10,
+    delai = 1; // delai en secondes avant la nouvelle question
 
 // Affiche les instructions au chargement de la page
 window.addEventListener("load", startPage, false);
@@ -37,11 +38,12 @@ function startGame() {
 }
 
 function finishGame() {
-    $("#quiz").html("<h2>Votre score est de " + score + " / " + questions.length + ".</h2>");
+    // $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + ".</p>");
     $("#restartButton").show();
     $("#titre_quiz").html("Quiz terminé !");
     displayProgress();
     clearInterval(autoUpdateTimerID);
+    calculScore();
 }
 
 function renderQuestion() {
@@ -66,7 +68,7 @@ function renderQuestion() {
 }
 
 function displayProgress() {
-	// calcul de l'avancement en %
+    // calcul de l'avancement en %
     var p = parseInt(pos / questions.length * 100);
     $(".progress").show();
     $("#startButton").hide();
@@ -87,19 +89,46 @@ function checkAnswer() {
     trueAnswer = questions[pos][questions[pos].length - 1];
     // si le choix correspond a la bonne reponse
     if (choice == trueAnswer) {
-        $('input[value="'+choice+'"]').parent().addClass("rightAnswer");
+        $('input[value="' + choice + '"]').parent().addClass("rightAnswer");
         score++;
     } else {
-        $('input[value="'+choice+'"]').parent().addClass("wrongAnswer");
-        $('input[value="'+trueAnswer+'"]').parent().addClass("rightAnswer");
+        $('input[value="' + choice + '"]').parent().addClass("wrongAnswer");
+        $('input[value="' + trueAnswer + '"]').parent().addClass("rightAnswer");
     }
     // delai puis lancement de la prochaine question en incrementant
     setTimeout(function() { renderQuestion(pos++); }, delai * 1000);
 }
 
+function elapsedTimeInSeconds() {
+    return elapsedSecs = (new Date() - startDate) / 1000;
+}
+
+function calculScore() {
+    // un minimum de 0,33s pour lire et repondre a la question
+    minTime = delai * questions.length;
+    // au dela de 10s par question, l'utilisateur ne perdra pas plus de points
+    maxTime = delaiMax * questions.length;
+    userTime = elapsedTimeInSeconds() - minTime;
+    var scoreReponses = parseInt(score / questions.length * 100);
+    var scoreTemps = parseInt((maxTime - userTime) / maxTime * 100);
+    var scoreFinal = parseInt((3 * scoreReponses + scoreTemps) / 4);
+    if (score == 0) {
+        scoreFinal = 0;
+    }
+    $("#quiz").html("<h2>Votre score final est de <span id='scoreDisplay'>" + scoreFinal + "</span>/100.");
+    $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + " en " + parseInt(elapsedTimeInSeconds()) + "s.</p>");
+    if (scoreFinal >= 75) {
+        $("#scoreDisplay").addClass("green");
+    } else if (scoreFinal > 50) {
+        $("#scoreDisplay").addClass("orange");
+    } else {
+        $("#scoreDisplay").addClass("red");
+    }
+}
+
 function updateTimer() {
     // calcul secondes ecoulees depuis debut du test
-    secs = (new Date() - startDate) / 1000;
+    secs = elapsedTimeInSeconds();
     mins = secs / 60;
     secs = parseInt(secs % 60);
     mins = parseInt(mins % 60);
@@ -110,4 +139,3 @@ function updateTimer() {
 
     $("#timer").text(mins + ":" + secs);
 }
-
