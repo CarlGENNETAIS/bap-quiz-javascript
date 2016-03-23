@@ -5,8 +5,9 @@ Quiz Javascript pour BAP
 
 ## TODO :
 
-* timer
-* explications mauvaise réponse
-* sons
-* améliorer écran de fin
+* timer pendant questions et temps total à la fin
+* score au fur et à mesure
+* calcul du score en fct du temps et réponses
+* faire backoffice entrée des questions et réponses
 * réponses dans base de donnée pour éviter triche
+* sons ?
