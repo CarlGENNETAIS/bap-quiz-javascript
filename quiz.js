@@ -9,9 +9,8 @@ var pos = 0,
     question = 0,
     choice = 0,
     choices = 0,
-    correct = 0;
-
-var delai = 2; // delai en secondes avant la nouvelle question
+    correct = 0,
+    delai = 0; // delai en secondes avant la nouvelle question
 
 //TODO : mettre réponses dans base de données
 var questions = [
@@ -28,45 +27,42 @@ function _(x) {
 
 function startPage() {
     $("#titre_quiz").html("Comment jouer");
-    $("#quiz").hide();
-    $(".progress").hide();
-    $("#timer").hide();
-    $(".panel-footer").append("<button id='startButton' onclick='startGame()' type='button' class='btn btn-primary'>Commencer le test</button>")
+    $("#quiz, #timer, #restartButton, .progress").hide();
 }
 
 function startGame() {
-    // stockage de l'heure de départ
+    // stockage de l'heure de départ dans une variable globale
     startDate = new Date();
     $("#timer").text("00:00");
     $("#timer").show();
+    $("#instructions, #startButton").hide();
     return renderQuestion();
 }
 
+function finishGame() {
+    $("#quiz").html("<h2>Votre score est de " + correct + " / " + questions.length + ".</h2>");
+    $("#restartButton").show();
+    $("#titre_quiz").html("Quiz terminé !");
+    displayProgress();
+    clearInterval(autoUpdateTimer);
+}
+
 function renderQuestion() {
-    $("#instructions").hide();
-    quiz = _("quiz");
+    // si questionnaire fini
     if (pos >= questions.length) {
-        quiz.innerHTML = "<h2>Votre score est de " + correct + " / " + questions.length + ".</h2>";
-        quiz.innerHTML += "<button onclick='window.location.reload()' type='button' class='btn btn-default'>Refaire le test</button>";
-        _("titre_quiz").innerHTML = "Quiz terminé";
-        displayProgress();
-        pos = 0;
-        correct = 0;
-        clearInterval(autoUpdateTimer);
-        return false;
+        return finishGame();
     }
     // Affichage du titre
-    $("#titre_quiz").text("Question " + (pos + 1) + " sur " + questions.length);
-    // _("titre_quiz").innerHTML = "Question " + (pos + 1) + " sur " + questions.length;
+    $("#titre_quiz").html("Question " + (pos + 1) + " sur " + questions.length);
+    // Affichage de la question
     $("#quiz").fadeOut(400, function() {
-            // Affichage de la question
             $(this).html("<h3>" + questions[pos][0] + "</h3><form></form>");
-            // affichage des choix de réponses
+            // affichage des choix de réponses numérotées A,B,C,D...
             for (var i = 1; i <= questions[pos].length - 2; i++) {
                 var letter = String.fromCharCode(65 - 1 + i);
                 $("form").append("<div class='radio'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
             }
-            $(this).append("").fadeIn(400);
+            $(this).fadeIn(400); // delai animation
         })
         // Affichage barre de progression
     displayProgress();
@@ -74,6 +70,7 @@ function renderQuestion() {
 
 
 function displayProgress() {
+	// calcul de l'avancement en %
     var p = (pos / questions.length * 100);
     $(".progress").show();
     $("#startButton").hide();
@@ -81,24 +78,6 @@ function displayProgress() {
         $(".progress").html("<div class='progress-bar progress-bar-striped' role='progressbar' aria-valuenow=" + p + " aria-valuemin='0' aria-valuemax='100' style='min-width:2.5em;width: " + p + "%;'> <span>" + p + "%</span> </div>");
     } else {
         $(".progress").html("<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100' style='width: 100%'> <span> 100%</span> </div>");
-    }
-}
-
-function buttonPressed() {
-    var elem = _("button1");
-    if (getChoice() != 0) {
-        _("messageErreur").style.display = 'none';
-        if (elem.firstChild.data == "Valider") {
-            elem.className = "btn btn-primary";
-            elem.firstChild.data = "Question suivante >";
-            return checkAnswer();
-        } else {
-            elem.firstChild.data = "Valider";
-            elem.className = "btn btn-success";
-            return nextQuestion();
-        }
-    } else {
-        return false;
     }
 }
 
@@ -141,7 +120,7 @@ function checkAnswer() {
         _("labelRep" + questions[pos][questions[pos].length - 1]).className += "rightAnswer";
     }
     // delai de 2s
-    setTimeout(function() { nextQuestion(); }, delai*1000);
+    setTimeout(function() { nextQuestion(); }, delai * 1000);
 }
 
 function updateTimer() {

@@ -31,20 +31,21 @@
                         </div>
                     </div>
                     <div class="panel-content">
-                        <div id="instructions" >
+                        <div id="instructions">
                             <p>
                                 <ul>
+                                    <li>Le temps de réponse est <strong>chronométré </strong>et pris en compte dans le score final.</li>
                                     <li>Chaque question a <strong>une seule bonne réponse.</strong></li>
-                                    <li>Répondre <strong>rapidement</strong> aux questions permet de gagner plus de points.</li>
-                                    <li>Une fois cochée, la réponse ne peut pas être modifiée.</li>
+                                    <li>Une fois cochée, la réponse <strong>ne peut pas être modifiée</strong>.</li>
                                 </ul>
                             </p>
                         </div>
                         <div id="quiz"></div>
+                        <button id="restartButton" onclick='window.location.reload()' type='button' class='btn btn-default'>Refaire le test</button>
                     </div>
                     <div class="panel-footer text-center">
-                        <div class="progress">
-                        </div>
+                        <div class="progress"></div>
+                         <button id='startButton' onclick='startGame()' type='button' class='btn btn-primary'>Commencer le test</button>
                     </div>
                 </div>
             </div>
