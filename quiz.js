@@ -1,7 +1,7 @@
 // pos = position ds le quiz
 var pos = 0,
     autoUpdateTimer = 0,
-	startDate = 0,
+    startDate = 0,
     secs = 0,
     minutes = 0,
     quiz = 0,
@@ -10,6 +10,8 @@ var pos = 0,
     choice = 0,
     choices = 0,
     correct = 0;
+
+var delai = 2; // delai en secondes avant la nouvelle question
 
 //TODO : mettre réponses dans base de données
 var questions = [
@@ -50,7 +52,7 @@ function renderQuestion() {
         displayProgress();
         pos = 0;
         correct = 0;
-        clearInterval(autoUpdateTimer)
+        clearInterval(autoUpdateTimer);
         return false;
     }
     // Affichage du titre
@@ -58,21 +60,16 @@ function renderQuestion() {
     // _("titre_quiz").innerHTML = "Question " + (pos + 1) + " sur " + questions.length;
     $("#quiz").fadeOut(400, function() {
             // Affichage de la question
-            $(this).html("<h3>" + questions[pos][0] + "</h3>");
+            $(this).html("<h3>" + questions[pos][0] + "</h3><form></form>");
             // affichage des choix de réponses
             for (var i = 1; i <= questions[pos].length - 2; i++) {
                 var letter = String.fromCharCode(65 - 1 + i);
-                $(this).append("<div class='radio'><label id='labelRep" + letter + "'><input type='radio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
+                $("form").append("<div class='radio'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
             }
-            // Bouton valider
-            // $(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
-            // Message d'erreur si pas de reponse selectionne (cache par defaut)
             $(this).append("").fadeIn(400);
         })
         // Affichage barre de progression
     displayProgress();
-    // detection case
-    // $('input:radio').click(alert("test"));
 }
 
 
@@ -118,10 +115,6 @@ function getChoice() {
             choice = choices[i].value;
         }
     }
-    // si pas de case choisie
-    if (choice == 0) {
-        _("messageErreur").style.display = 'inline-block';
-    }
     return choice;
 }
 
@@ -143,10 +136,12 @@ function checkAnswer() {
         _("labelRep" + choice).className += "rightAnswer";
     } else {
         _("labelRep" + choice).className += "wrongAnswer";
+        var string = ".labelRep" + choice;
+        // $(string).wrap("<s></s>");
         _("labelRep" + questions[pos][questions[pos].length - 1]).className += "rightAnswer";
     }
     // delai de 2s
-    setTimeout(function() { nextQuestion(); }, 2000);
+    setTimeout(function() { nextQuestion(); }, delai*1000);
 }
 
 function updateTimer() {

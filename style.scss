@@ -1,33 +1,58 @@
-div#quiz {
-	padding: 10px 40px 40px 40px;
+.panel {
+    margin-top: 2em;
+    .panel-content {
+        padding: 1em;
+    }
 }
 
-.panel {
-	margin-top: 2em;
-}
 .wrongAnswer {
-	color: red;
-	text-decoration: line-through;
-	&::after {
-		font-family: FontAwesome;
-		content: "  \f00d"; // X
-	}
+    color: red;
+    text-decoration: line-through;
+    &::after {
+        font-family: FontAwesome;
+        content: "  \f00d"; // X
+        display: inline-block;
+        margin-left: 0.5em;
+    	text-decoration: none;
+        // color: blue;
+    }
 }
 
 .rightAnswer {
-	color: green;
-	font-weight: bold;
-	&::after {
-		font-family: FontAwesome;
-		content: "  \f00c"; // V
-	}
+    color: green;
+    font-weight: bold;
+    &::after {
+        font-family: FontAwesome;
+        content: "  \f00c"; // V
+        display: inline-block;
+        margin-left: 0.5em;
+    }
 }
 
 .progress {
-	height: 2em;
-	span {
-		font-size: 1.5em;
-		line-height: 1.5em;
-	}
+    height: 2em;
+    span {
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
 }
 
+form {
+    font-size: 1.5em;
+    line-height: 2em;
+    margin-top: 1em;
+    .radio {
+    	// padding-left: 20px;
+        label {
+            width: 100%;
+            border-radius: 5px;
+            padding-left: 2em;
+            input {
+                height: 1.5em;
+            }
+            &:hover {
+                background: rgba(51, 122, 183, 0.28);
+            }
+        }
+    }
+}
