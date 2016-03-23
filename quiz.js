@@ -1,6 +1,7 @@
 // pos = position ds le quiz
 var pos = 0,
-    startDate = 0,
+    autoUpdateTimer = 0,
+	startDate = 0,
     secs = 0,
     minutes = 0,
     quiz = 0,
@@ -10,7 +11,6 @@ var pos = 0,
     choices = 0,
     correct = 0;
 
-//TODO : gerer les reponses multiples ("AB", checkbox)
 //TODO : mettre réponses dans base de données
 var questions = [
     ["Quelle est la capitale de la France ?", "Lyon", "Paris", "Marseille", "B"],
@@ -35,6 +35,7 @@ function startPage() {
 function startGame() {
     // stockage de l'heure de départ
     startDate = new Date();
+    $("#timer").text("00:00");
     $("#timer").show();
     return renderQuestion();
 }
@@ -49,6 +50,7 @@ function renderQuestion() {
         displayProgress();
         pos = 0;
         correct = 0;
+        clearInterval(autoUpdateTimer)
         return false;
     }
     // Affichage du titre
@@ -60,17 +62,19 @@ function renderQuestion() {
             // affichage des choix de réponses
             for (var i = 1; i <= questions[pos].length - 2; i++) {
                 var letter = String.fromCharCode(65 - 1 + i);
-                $(this).append("<div class='radio'><label id='labelRep" + letter + "'><input type='radio' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
+                $(this).append("<div class='radio'><label id='labelRep" + letter + "'><input type='radio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
             }
             // Bouton valider
-            $(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
+            // $(this).append("<button id='button1' onclick='buttonPressed()' type='button' class='btn btn-success'>Valider</button>");
             // Message d'erreur si pas de reponse selectionne (cache par defaut)
-            $(this).append("<div id='messageErreur' class='alert alert-danger' style='display:none' role='alert'>Veuillez sélectionner une réponse.</div>").fadeIn(400);
+            $(this).append("").fadeIn(400);
         })
         // Affichage barre de progression
     displayProgress();
-
+    // detection case
+    // $('input:radio').click(alert("test"));
 }
+
 
 function displayProgress() {
     var p = (pos / questions.length * 100);
@@ -121,7 +125,10 @@ function getChoice() {
     return choice;
 }
 
+// l'appel se fait dans le <input onchange="">
 function checkAnswer() {
+    // desactive les inputs apres la reponse
+    $("input").prop('disabled', true);
     choices = document.getElementsByName("choices");
     choice = getChoice();
     // on recupere la case cochée
@@ -138,6 +145,8 @@ function checkAnswer() {
         _("labelRep" + choice).className += "wrongAnswer";
         _("labelRep" + questions[pos][questions[pos].length - 1]).className += "rightAnswer";
     }
+    // delai de 2s
+    setTimeout(function() { nextQuestion(); }, 2000);
 }
 
 function updateTimer() {
@@ -155,6 +164,8 @@ function updateTimer() {
 }
 
 
+
 // Affiche les instructions au chargement de la page
 window.addEventListener("load", startPage, false);
-window.setInterval(updateTimer, 1000);
+// Rafraichissement du timer toutes les secondes
+autoUpdateTimer = window.setInterval(updateTimer, 1000);
