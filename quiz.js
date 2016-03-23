@@ -22,11 +22,6 @@ var questions = [
     ["Que font 8 / 2?", "10", "2", "4", "C"]
 ];
 
-// fonction pour accéder à un élément par son ID
-function _(x) {
-    return document.getElementById(x);
-}
-
 function startPage() {
     $("#titre_quiz").html("Comment jouer");
     $("#quiz, #timer, #restartButton, .progress").hide();
@@ -72,7 +67,7 @@ function renderQuestion() {
 
 function displayProgress() {
 	// calcul de l'avancement en %
-    var p = (pos / questions.length * 100);
+    var p = parseInt(pos / questions.length * 100);
     $(".progress").show();
     $("#startButton").hide();
     if (p != 100) {
