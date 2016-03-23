@@ -5,9 +5,9 @@ Quiz Javascript pour BAP
 
 ## TODO :
 
-* score au fur et à mesure ?
-* faire backoffice entrée des questions et réponses
 * réponses dans base de donnée pour éviter triche
+* faire backoffice entrée des questions et réponses
+* score au fur et à mesure ?
 * sons ?
 
 ## DONE ✔:
