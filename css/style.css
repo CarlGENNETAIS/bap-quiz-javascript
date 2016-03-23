@@ -17,3 +17,9 @@ div#quiz {
   .rightAnswer::after {
     font-family: FontAwesome;
     content: "  \f00c"; }
+
+.progress {
+  height: 2em; }
+  .progress span {
+    font-size: 1.5em;
+    line-height: 1.5em; }
