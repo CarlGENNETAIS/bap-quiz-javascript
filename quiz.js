@@ -1,4 +1,9 @@
-// pos = position ds le quiz
+// PARAMETRES DU QUIZ
+var delai = 1, // (en secondes) delai avant la prochaine question
+    delaiMax = 10, // (en secondes) delai pour obtenir des points
+    coefTemps = 20; // (en %) pourcentage du temps dans la note finale
+
+// initialisation des variables utilisées
 var pos = 0,
     autoUpdateTimerID = 0,
     startDate = 0,
@@ -6,9 +11,8 @@ var pos = 0,
     mins = 0,
     choice = 0,
     trueAnswer = 0,
-    score = 0,
-    delaiMax = 10,
-    delai = 1; // delai en secondes avant la nouvelle question
+    score = 0;
+
 
 // Affiche les instructions au chargement de la page
 window.addEventListener("load", startPage, false);
@@ -25,6 +29,7 @@ var questions = [
 
 function startPage() {
     $("#titre_quiz").html("Comment jouer");
+    $("#coef").text(coefTemps);
     $("#quiz, #timer, #restartButton, .progress").hide();
 }
 
@@ -41,6 +46,7 @@ function finishGame() {
     // $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + ".</p>");
     $("#restartButton").show();
     $("#titre_quiz").html("Quiz terminé !");
+    $("#timer").removeClass("orange").addClass("grey");
     displayProgress();
     clearInterval(autoUpdateTimerID);
     calculScore();
@@ -104,17 +110,20 @@ function elapsedTimeInSeconds() {
 }
 
 function calculScore() {
-    // un minimum de 0,33s pour lire et repondre a la question
-    minTime = delai * questions.length;
-    // au dela de 10s par question, l'utilisateur ne perdra pas plus de points
-    maxTime = delaiMax * questions.length;
-    userTime = elapsedTimeInSeconds() - minTime;
+    var minTime = delai * questions.length; // temps min possible
+    var maxTime = delaiMax * questions.length; // temps maxi pour avoir des points
+    var userTime = elapsedTimeInSeconds() - minTime;
+    // calcul des 2 scores sur 100
     var scoreReponses = parseInt(score / questions.length * 100);
     var scoreTemps = parseInt((maxTime - userTime) / maxTime * 100);
-    var scoreFinal = parseInt((3 * scoreReponses + scoreTemps) / 4);
+    // calcul coef
+    // var coef = coefTemps / 100;
+    var scoreFinal = parseInt(((100 - coefTemps) * scoreReponses + coefTemps * scoreTemps) / 100);
+    // si aucune bonne reponse, 0
     if (score == 0) {
         scoreFinal = 0;
     }
+    // affichage
     $("#quiz").html("<h2>Votre score est de <span id='scoreDisplay'>" + scoreFinal + "</span>/100.");
     $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + " en " + $("#timer").text() + "s.</p>");
     if (scoreFinal >= 75) {
