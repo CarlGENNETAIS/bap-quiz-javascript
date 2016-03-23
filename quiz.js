@@ -16,8 +16,15 @@ function _(x) {
 	return document.getElementById(x);
 }
 
+function startPage() {
+	$("#titre_quiz").html("Comment jouer");
+	$("#quiz").hide();
+	$(".progress").hide();
+	$(".panel-footer").append("<button id='startButton' onclick='renderQuestion()' type='button' class='btn btn-primary'>Commencer le test</button>")
+}
 
 function renderQuestion() {
+	$("#instructions").hide();
 	quiz = _("quiz");
 	if (pos >= questions.length) {
 		quiz.innerHTML = "<h2>Votre score est de " + correct + " / " + questions.length + ".</h2>";
@@ -52,6 +59,8 @@ function renderQuestion() {
 
 function displayProgress() {
  var p = (pos / questions.length * 100);
+ $(".progress").show();
+ $("#startButton").hide();
  if (p != 100) {
     $(".progress").html("<div class='progress-bar progress-bar-striped' role='progressbar' aria-valuenow="
     	+ p + " aria-valuemin='0' aria-valuemax='100' style='min-width:2em;width: "
@@ -124,5 +133,5 @@ function getChoice() {
 }
 
 
-// Lance le quiz une premiere fois au chargement de la page
-window.addEventListener("load", renderQuestion, false);
+// Affiche les instructions au chargement de la page
+window.addEventListener("load", startPage, false);
