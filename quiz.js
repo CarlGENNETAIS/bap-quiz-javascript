@@ -115,8 +115,8 @@ function calculScore() {
     if (score == 0) {
         scoreFinal = 0;
     }
-    $("#quiz").html("<h2>Votre score final est de <span id='scoreDisplay'>" + scoreFinal + "</span>/100.");
-    $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + " en " + parseInt(elapsedTimeInSeconds()) + "s.</p>");
+    $("#quiz").html("<h2>Votre score est de <span id='scoreDisplay'>" + scoreFinal + "</span>/100.");
+    $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + " en " + $("#timer").text() + "s.</p>");
     if (scoreFinal >= 75) {
         $("#scoreDisplay").addClass("green");
     } else if (scoreFinal > 50) {
