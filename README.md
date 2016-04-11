@@ -4,9 +4,13 @@ Quiz Javascript pour BAP
 ## [Demo](https://rawgit.com/CarlGENNETAIS/bap-quiz-javascript/master/index.html)
 
 ## TODO :
-
-* réponses dans base de donnée pour éviter triche
+* intégrer maquette
+* éviter score négatif
+* réponses dans base de donnée mysql pour éviter triche
+* ordre des questions aléatoires
 * faire backoffice entrée des questions et réponses
+
+## MAYBE ?:
 * score au fur et à mesure ?
 * sons ?
 
