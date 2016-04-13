@@ -1,10 +1,13 @@
+$size: 2em;
+$blue: #2D5BA8;
+$lightblue: #2F79B9;
 body {
     background-color: #EAEBEC;
 }
 
 .mypanel {
     background-color: white;
-    margin-top: 20vh;
+    margin-top: 15vh;
     padding: 2em;
     .mypanel-heading {
         // border: 1px solid green;
@@ -15,27 +18,25 @@ body {
 }
 
 .wrongAnswer {
-    background: red;
-    color: red;
-    text-decoration: line-through;
-    &::after {
-        font-family: FontAwesome;
-        content: "  \f00d"; // X
-        display: inline-block;
-        margin-left: 0.5em;
-        text-decoration: none;
-        // color: blue;
-    }
+    background: red !important;
+    // text-decoration: line-through;
+    // &::after {
+    //     font-family: FontAwesome;
+    //     content: "  \f00d"; // X
+    //     display: inline-block;
+    //     margin-left: 0.5em;
+    //     text-decoration: none;
+    // }
 }
 
 .rightAnswer {
-    color: green;
-    &::after {
-        font-family: FontAwesome;
-        content: "  \f00c"; // V
-        display: inline-block;
-        margin-left: 0.5em;
-    }
+    background: green !important;
+    // &::after {
+    //     font-family: FontAwesome;
+    //     content: "  \f00c"; // V
+    //     display: inline-block;
+    //     margin-left: 0.5em;
+    // }
 }
 
 .progress {
@@ -47,8 +48,33 @@ body {
     }
 }
 
-$size: 2em;
-$blue: #2D5BA8;
+.triangle {
+    $trWidth: 100px;
+    position: absolute;
+    left: 50%;
+    margin-left: -$trWidth;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: $trWidth $trWidth 0px $trWidth;
+    border-color: $blue transparent transparent transparent;
+    // float: none;
+    z-index: 2;
+    p {
+        // border: 1px solid white;
+        color: white;
+        font-size: $size * 1.5;
+        top: -2em;
+        position: relative;
+        $numberWidth: 40px;
+        width: $numberWidth;
+        left: -$numberWidth/2;
+        i {
+            font-size: 0.7em;
+        }
+    }
+}
+
 form {
     font-size: $size;
     line-height: $size + 0.5em;
@@ -58,23 +84,20 @@ form {
         padding: 0.5em;
         // padding-left: 20px;
         input {
-            visibility: hidden;
+            // visibility: hidden;
+            display: none;
         }
         label {
+            font-weight: normal;
             cursor: pointer;
-            // padding: 1em;
             width: 100%;
-            // height: 4em;
             background: $blue;
             color: white;
-            // border-radius: 5px;
-            // padding-left: 2em;
-            // padding: 1em;
             input {
                 height: $size;
             }
             &:hover {
-                background: rgba(51, 122, 183, 0.28);
+                background: $lightblue;
             }
         }
     }

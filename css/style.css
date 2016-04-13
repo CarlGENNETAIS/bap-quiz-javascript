@@ -3,27 +3,14 @@ body {
 
 .mypanel {
   background-color: white;
-  margin-top: 20vh;
+  margin-top: 15vh;
   padding: 2em; }
 
 .wrongAnswer {
-  background: red;
-  color: red;
-  text-decoration: line-through; }
-  .wrongAnswer::after {
-    font-family: FontAwesome;
-    content: "  \f00d";
-    display: inline-block;
-    margin-left: 0.5em;
-    text-decoration: none; }
+  background: red !important; }
 
 .rightAnswer {
-  color: green; }
-  .rightAnswer::after {
-    font-family: FontAwesome;
-    content: "  \f00c";
-    display: inline-block;
-    margin-left: 0.5em; }
+  background: green !important; }
 
 .progress {
   margin: 20px 0px 10px 0px;
@@ -31,6 +18,26 @@ body {
   .progress span {
     font-size: 1.5em;
     line-height: 1.5em; }
+
+.triangle {
+  position: absolute;
+  left: 50%;
+  margin-left: -100px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 100px 100px 0px 100px;
+  border-color: #2D5BA8 transparent transparent transparent;
+  z-index: 2; }
+  .triangle p {
+    color: white;
+    font-size: 3em;
+    top: -2em;
+    position: relative;
+    width: 40px;
+    left: -20px; }
+    .triangle p i {
+      font-size: 0.7em; }
 
 form {
   font-size: 2em;
@@ -40,8 +47,9 @@ form {
     margin: 0;
     padding: 0.5em; }
     form .col-md-6 input {
-      visibility: hidden; }
+      display: none; }
     form .col-md-6 label {
+      font-weight: normal;
       cursor: pointer;
       width: 100%;
       background: #2D5BA8;
@@ -49,7 +57,7 @@ form {
       form .col-md-6 label input {
         height: 2em; }
       form .col-md-6 label:hover {
-        background: rgba(51, 122, 183, 0.28); }
+        background: #2F79B9; }
 
 .grey {
   color: grey; }

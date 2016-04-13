@@ -4,7 +4,8 @@ Quiz Javascript pour BAP
 ## [Demo](https://rawgit.com/CarlGENNETAIS/bap-quiz-javascript/master/index.html)
 
 ## TODO :
-* intégrer maquette
+* intégrer maquette (chrono animé)
+* animations des réponses
 * éviter score négatif
 * réponses dans base de donnée mysql pour éviter triche
 * ordre des questions aléatoires

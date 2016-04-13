@@ -58,7 +58,7 @@ function renderQuestion() {
         return finishGame();
     }
     // Affichage du titre
-    $("#titre_quiz").html("Question " + (pos + 1) + " sur " + questions.length);
+    $("#questionNumber").html(pos + 1);
     // Affichage de la question
     $("#quiz").fadeOut(400, function() {
             $(this).html("<h3>" + questions[pos][0] + "</h3><form><div class='row' id='row0'></div><div class='row' id='row1'></div></form>");
@@ -66,7 +66,7 @@ function renderQuestion() {
             var row = 0;
             for (var i = 1; i <= questions[pos].length - 2; i++) {
                 var letter = String.fromCharCode(65 - 1 + i);
-                $("#row"+Math.floor((i-1)/2)).append("<div class='col-md-6'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
+                $("#row"+Math.floor((i-1)/2)).append("<div class='col-md-6 text-center'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
             }
             $(this).fadeIn(400); // delai animation
         })
@@ -100,7 +100,8 @@ function checkAnswer() {
         score++;
     } else {
         $('input[value="' + choice + '"]').parent().addClass("wrongAnswer");
-        $('input[value="' + trueAnswer + '"]').parent().addClass("rightAnswer");
+        // on ne revele pas la bonne reponse
+        // $('input[value="' + trueAnswer + '"]').parent().addClass("rightAnswer");
     }
     // delai puis lancement de la prochaine question en incrementant
     setTimeout(function() { renderQuestion(pos++); }, delai * 1000);
