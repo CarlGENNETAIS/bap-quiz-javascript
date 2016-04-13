@@ -1,11 +1,21 @@
-.panel {
-    margin-top: 2em;
-    .panel-content {
-        padding: 1em;
+body {
+    background-color: #EAEBEC;
+}
+
+.mypanel {
+    background-color: white;
+    margin-top: 20vh;
+    padding: 2em;
+    .mypanel-heading {
+        // border: 1px solid green;
+    }
+    .mypanel-footer {
+        // border: 1px solid red;
     }
 }
 
 .wrongAnswer {
+    background: red;
     color: red;
     text-decoration: line-through;
     &::after {
@@ -29,6 +39,7 @@
 }
 
 .progress {
+    margin: 20px 0px 10px 0px;
     height: 2em;
     span {
         font-size: 1.5em;
@@ -36,18 +47,31 @@
     }
 }
 
+$size: 2em;
+$blue: #2D5BA8;
 form {
-    font-size: 1.5em;
-    line-height: 2em;
+    font-size: $size;
+    line-height: $size + 0.5em;
     margin-top: 1em;
-    .radio {
+    .col-md-6 {
+        margin: 0;
+        padding: 0.5em;
         // padding-left: 20px;
+        input {
+            visibility: hidden;
+        }
         label {
+            cursor: pointer;
+            // padding: 1em;
             width: 100%;
-            border-radius: 5px;
-            padding-left: 2em;
+            // height: 4em;
+            background: $blue;
+            color: white;
+            // border-radius: 5px;
+            // padding-left: 2em;
+            // padding: 1em;
             input {
-                height: 1.5em;
+                height: $size;
             }
             &:hover {
                 background: rgba(51, 122, 183, 0.28);
@@ -56,8 +80,22 @@ form {
     }
 }
 
-.grey {color: grey; }
-.white {color: white; }
-.green {color: green; }
-.orange {color: orange; }
-.red {color: red; }
+.grey {
+    color: grey;
+}
+
+.white {
+    color: white;
+}
+
+.green {
+    color: green;
+}
+
+.orange {
+    color: orange;
+}
+
+.red {
+    color: red;
+}

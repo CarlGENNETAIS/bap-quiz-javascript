@@ -1,9 +1,13 @@
-.panel {
-  margin-top: 2em; }
-  .panel .panel-content {
-    padding: 1em; }
+body {
+  background-color: #EAEBEC; }
+
+.mypanel {
+  background-color: white;
+  margin-top: 20vh;
+  padding: 2em; }
 
 .wrongAnswer {
+  background: red;
   color: red;
   text-decoration: line-through; }
   .wrongAnswer::after {
@@ -22,23 +26,30 @@
     margin-left: 0.5em; }
 
 .progress {
+  margin: 20px 0px 10px 0px;
   height: 2em; }
   .progress span {
     font-size: 1.5em;
     line-height: 1.5em; }
 
 form {
-  font-size: 1.5em;
-  line-height: 2em;
+  font-size: 2em;
+  line-height: 2.5em;
   margin-top: 1em; }
-  form .radio label {
-    width: 100%;
-    border-radius: 5px;
-    padding-left: 2em; }
-    form .radio label input {
-      height: 1.5em; }
-    form .radio label:hover {
-      background: rgba(51, 122, 183, 0.28); }
+  form .col-md-6 {
+    margin: 0;
+    padding: 0.5em; }
+    form .col-md-6 input {
+      visibility: hidden; }
+    form .col-md-6 label {
+      cursor: pointer;
+      width: 100%;
+      background: #2D5BA8;
+      color: white; }
+      form .col-md-6 label input {
+        height: 2em; }
+      form .col-md-6 label:hover {
+        background: rgba(51, 122, 183, 0.28); }
 
 .grey {
   color: grey; }

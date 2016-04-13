@@ -19,18 +19,21 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
+                <div class="mypanel">
+                    <div class="mypanel-heading">
                         <div class="row">
-                            <div class="col-md-10">
-                                <h2 id="titre_quiz"></h2>
+                            <div class="col-md-3">
+                                <h2>100</h2>
                             </div>
-                            <div class="col-md-2">
-                                <h2 id="timer" class="orange"></h2>
+                            <div class="col-md-6 text-centered">
+                                <div class="progress"></div>
+                            </div>
+                            <div class="col-md-3 text-right">
+                                <h2 id="timer"></h2>
                             </div>
                         </div>
                     </div>
-                    <div class="panel-content">
+                    <div class="mypanel-content">
                         <div id="instructions">
                             <p>
                                 <ul>
@@ -43,9 +46,8 @@
                         <div id="quiz"></div>
                         <button id="restartButton" onclick='window.location.reload()' type='button' class='btn btn-default'>Refaire le test</button>
                     </div>
-                    <div class="panel-footer text-center">
-                        <div class="progress"></div>
-                         <button id='startButton' onclick='startGame()' type='button' class='btn btn-primary'>Commencer le test</button>
+                    <div class="mypanel-footer text-center">
+                        <button id='startButton' onclick='startGame()' type='button' class='btn btn-primary'>Commencer le test</button>
                     </div>
                 </div>
             </div>

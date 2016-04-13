@@ -21,7 +21,7 @@ autoUpdateTimerID = window.setInterval(updateTimer, 1000);
 
 //TODO : mettre réponses dans base de données
 var questions = [
-    ["Quelle est la capitale de la France ?", "Lyon", "Paris", "Marseille", "B"],
+    ["Quelle est la capitale de la France ?", "Lyon", "Paris", "Marseille", "Strasbourg", "B"],
     ["Que font 20 - 9?", "7", "13", "11", "42", "C"],
     ["Que font 7 x 3?", "21", "24", "25", "A"],
     ["Que font 8 / 2?", "10", "2", "4", "C"]
@@ -61,11 +61,12 @@ function renderQuestion() {
     $("#titre_quiz").html("Question " + (pos + 1) + " sur " + questions.length);
     // Affichage de la question
     $("#quiz").fadeOut(400, function() {
-            $(this).html("<h3>" + questions[pos][0] + "</h3><form></form>");
+            $(this).html("<h3>" + questions[pos][0] + "</h3><form><div class='row' id='row0'></div><div class='row' id='row1'></div></form>");
             // affichage des choix de réponses numérotées A,B,C,D...
+            var row = 0;
             for (var i = 1; i <= questions[pos].length - 2; i++) {
                 var letter = String.fromCharCode(65 - 1 + i);
-                $("form").append("<div class='radio'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
+                $("#row"+Math.floor((i-1)/2)).append("<div class='col-md-6'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
             }
             $(this).fadeIn(400); // delai animation
         })
