@@ -61,7 +61,7 @@ function renderQuestion() {
     $("#questionNumber").html(pos + 1);
     // Affichage de la question
     $("#quiz").fadeOut(400, function() {
-            $(this).html("<h3>" + questions[pos][0] + "</h3><form><div class='row' id='row0'></div><div class='row' id='row1'></div></form>");
+            $(this).html("<h3 class='text-center'>" + questions[pos][0] + "</h3><form><div class='row' id='row0'></div><div class='row' id='row1'></div></form>");
             // affichage des choix de réponses numérotées A,B,C,D...
             var row = 0;
             for (var i = 1; i <= questions[pos].length - 2; i++) {
