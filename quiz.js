@@ -1,27 +1,18 @@
 // PARAMETRES DU QUIZ
 var delai = 1, // (en secondes) delai avant la prochaine question
-    delaiMax = 10, // (en secondes) delai pour obtenir des points
-    coefTemps = 20, // (en %) pourcentage du temps dans la note finale
     points = 10, // Points par question
     coef = 1,
     coefMax = 2,
-    timer = 15; // en secondes
+    timerQuestion = 15; // en secondes
 
 // initialisation des variables utilisées
 var pos = 0,
-    autoUpdateTimerID = 0,
-    startDate = 0,
-    secs = 0,
-    mins = 0,
     choice = 0,
     trueAnswer = 0,
-    score = 0;
+    score = 0,
+    timerInterval = 0;
 
 
-// Affiche les instructions au chargement de la page
-window.addEventListener("load", startPage, false);
-// Rafraichissement du timer toutes les secondes
-// autoUpdateTimerID = window.setInterval(updateTimer, 1000);
 
 
 //TODO : mettre réponses dans base de données
@@ -34,13 +25,10 @@ var questions = [
 
 function startPage() {
     $("#titre_quiz").html("Comment jouer");
-    $("#coef").text(coefTemps);
     $("#quiz, #timer, #restartButton, .progress").hide();
 }
 
 function startGame() {
-    // stockage de l'heure de départ dans une variable globale
-    startDate = new Date();
     $("#timer").text("00:15");
     $("#score").html(0);
     $("#timer").show();
@@ -52,9 +40,9 @@ function finishGame() {
     // $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + ".</p>");
     $("#restartButton").show();
     $("#titre_quiz").html("Quiz terminé !");
-    $("#timer").removeClass("orange").addClass("grey");
     displayProgress();
-    // clearInterval(autoUpdateTimerID);
+    clearInterval(timerInterval);
+    $("#timer").html("");
 }
 
 function renderQuestion() {
@@ -64,6 +52,7 @@ function renderQuestion() {
     }
     // Affichage du titre
     $("#questionNumber").html(pos + 1);
+    startTimer(timerQuestion, document.querySelector('#timer'));
     // Affichage de la question
     $("#quiz").fadeOut(400, function() {
             $(this).html("<h3 class='text-center'>" + questions[pos][0] + "</h3><form><div class='row' id='row0'></div><div class='row' id='row1'></div></form>");
@@ -77,7 +66,6 @@ function renderQuestion() {
         })
         // Affichage barre de progression
     displayProgress();
-    startTimer(timer, document.querySelector('#timer'));
 }
 
 function displayProgress() {
@@ -96,6 +84,7 @@ function displayProgress() {
 function checkAnswer() {
     // desactive les inputs pendant la correction
     $("input").prop('disabled', true);
+    clearInterval(timerInterval);
     // recupere la valeur de la case cochée (A,B,C ou D...)
     choice = $('form input[type=radio]:checked').val();
     // on recupere la correction dans le tableau
@@ -112,13 +101,18 @@ function checkAnswer() {
         // on ne revele pas la bonne reponse
         // $('input[value="' + trueAnswer + '"]').parent().addClass("rightAnswer");
     }
-    // delai puis lancement de la prochaine question en incrementant
+    nextQuestion();
+}
+
+// delai puis lancement de la prochaine question en incrementant
+function nextQuestion() {
     setTimeout(function() { renderQuestion(pos++); }, delai * 1000);
 }
 
 function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
+    var timer = duration,
+        minutes, seconds;
+    timerInterval = setInterval(function() {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -128,7 +122,13 @@ function startTimer(duration, display) {
         display.textContent = minutes + ":" + seconds;
 
         if (--timer < 0) {
+            nextQuestion();
             timer = duration;
         }
     }, 1000);
 }
+
+// Affiche les instructions au chargement de la page
+window.addEventListener("load", startPage, false);
+// Rafraichissement du timer toutes les secondes
+// autoUpdateTimerID = window.setInterval(updateTimer, 1000);
