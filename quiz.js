@@ -12,9 +12,6 @@ var pos = 0,
     score = 0,
     timerInterval = 0;
 
-
-
-
 //TODO : mettre réponses dans base de données
 var questions = [
     ["Quelle est la capitale de la France ?", "Lyon", "Paris", "Marseille", "Strasbourg", "B"],
@@ -29,7 +26,7 @@ function startPage() {
 }
 
 function startGame() {
-    $("#timer").text("00:15");
+    $("#timer").html("<i class='fa fa-clock-o' aria-hidden='true'></i> 15");
     $("#score").html(0);
     $("#timer").show();
     $("#instructions, #startButton").hide();
@@ -39,7 +36,6 @@ function startGame() {
 function finishGame() {
     // $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + ".</p>");
     $("#restartButton").show();
-    $("#titre_quiz").html("Quiz terminé !");
     displayProgress();
     clearInterval(timerInterval);
     $("#timer").html("");
@@ -52,7 +48,8 @@ function renderQuestion() {
     }
     // Affichage du titre
     $("#questionNumber").html(pos + 1);
-    startTimer(timerQuestion, document.querySelector('#timer'));
+    $("#score").html(score);
+    startTimer(timerQuestion);
     // Affichage de la question
     $("#quiz").fadeOut(400, function() {
             $(this).html("<h3 class='text-center'>" + questions[pos][0] + "</h3><form><div class='row' id='row0'></div><div class='row' id='row1'></div></form>");
@@ -92,9 +89,9 @@ function checkAnswer() {
     // si le choix correspond a la bonne reponse
     if (choice == trueAnswer) {
         $('input[value="' + choice + '"]').parent().addClass("rightAnswer");
+        $("#score").html(score+"<span class='bg-success'> + " + points*coef+ "</span>");
         score += points * coef;
         if (coef < coefMax) { coef += 0.2; }
-        $("#score").html(score);
     } else {
         coef = 1;
         $('input[value="' + choice + '"]').parent().addClass("wrongAnswer");
@@ -109,18 +106,13 @@ function nextQuestion() {
     setTimeout(function() { renderQuestion(pos++); }, delai * 1000);
 }
 
-function startTimer(duration, display) {
+function startTimer(duration) {
     var timer = duration,
-        minutes, seconds;
+        seconds;
     timerInterval = setInterval(function() {
-        minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
+        $("#timer").html("<i class='fa fa-clock-o' aria-hidden='true'></i> " + seconds);
         if (--timer < 0) {
             nextQuestion();
             timer = duration;
