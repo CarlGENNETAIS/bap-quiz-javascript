@@ -9,34 +9,14 @@ body {
     background-color: white;
     margin-top: 15vh;
     padding: 2em;
-    .mypanel-heading {
-        // border: 1px solid green;
-    }
-    .mypanel-footer {
-        // border: 1px solid red;
-    }
 }
 
 .wrongAnswer {
     background: red !important;
-    // text-decoration: line-through;
-    // &::after {
-    //     font-family: FontAwesome;
-    //     content: "  \f00d"; // X
-    //     display: inline-block;
-    //     margin-left: 0.5em;
-    //     text-decoration: none;
-    // }
 }
 
 .rightAnswer {
     background: green !important;
-    // &::after {
-    //     font-family: FontAwesome;
-    //     content: "  \f00c"; // V
-    //     display: inline-block;
-    //     margin-left: 0.5em;
-    // }
 }
 
 .progress {

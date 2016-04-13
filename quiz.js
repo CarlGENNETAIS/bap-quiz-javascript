@@ -1,7 +1,11 @@
 // PARAMETRES DU QUIZ
 var delai = 1, // (en secondes) delai avant la prochaine question
     delaiMax = 10, // (en secondes) delai pour obtenir des points
-    coefTemps = 20; // (en %) pourcentage du temps dans la note finale
+    coefTemps = 20, // (en %) pourcentage du temps dans la note finale
+    points = 10, // Points par question
+    coef = 1,
+    coefMax = 2,
+    timer = 15; // en secondes
 
 // initialisation des variables utilisées
 var pos = 0,
@@ -17,7 +21,8 @@ var pos = 0,
 // Affiche les instructions au chargement de la page
 window.addEventListener("load", startPage, false);
 // Rafraichissement du timer toutes les secondes
-autoUpdateTimerID = window.setInterval(updateTimer, 1000);
+// autoUpdateTimerID = window.setInterval(updateTimer, 1000);
+
 
 //TODO : mettre réponses dans base de données
 var questions = [
@@ -36,7 +41,8 @@ function startPage() {
 function startGame() {
     // stockage de l'heure de départ dans une variable globale
     startDate = new Date();
-    $("#timer").text("00:00");
+    $("#timer").text("00:15");
+    $("#score").html(0);
     $("#timer").show();
     $("#instructions, #startButton").hide();
     return renderQuestion();
@@ -48,8 +54,7 @@ function finishGame() {
     $("#titre_quiz").html("Quiz terminé !");
     $("#timer").removeClass("orange").addClass("grey");
     displayProgress();
-    clearInterval(autoUpdateTimerID);
-    calculScore();
+    // clearInterval(autoUpdateTimerID);
 }
 
 function renderQuestion() {
@@ -66,12 +71,13 @@ function renderQuestion() {
             var row = 0;
             for (var i = 1; i <= questions[pos].length - 2; i++) {
                 var letter = String.fromCharCode(65 - 1 + i);
-                $("#row"+Math.floor((i-1)/2)).append("<div class='col-md-6 text-center'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
+                $("#row" + Math.floor((i - 1) / 2)).append("<div class='col-md-6 text-center'><label id='labelRep" + letter + "'><input type='radio' class='inputRadio' onchange='checkAnswer()' name='choices' value='" + letter + "'> " + questions[pos][i] + "</label>");
             }
             $(this).fadeIn(400); // delai animation
         })
         // Affichage barre de progression
     displayProgress();
+    startTimer(timer, document.querySelector('#timer'));
 }
 
 function displayProgress() {
@@ -97,8 +103,11 @@ function checkAnswer() {
     // si le choix correspond a la bonne reponse
     if (choice == trueAnswer) {
         $('input[value="' + choice + '"]').parent().addClass("rightAnswer");
-        score++;
+        score += points * coef;
+        if (coef < coefMax) { coef += 0.2; }
+        $("#score").html(score);
     } else {
+        coef = 1;
         $('input[value="' + choice + '"]').parent().addClass("wrongAnswer");
         // on ne revele pas la bonne reponse
         // $('input[value="' + trueAnswer + '"]').parent().addClass("rightAnswer");
@@ -107,46 +116,19 @@ function checkAnswer() {
     setTimeout(function() { renderQuestion(pos++); }, delai * 1000);
 }
 
-function elapsedTimeInSeconds() {
-    return elapsedSecs = (new Date() - startDate) / 1000;
-}
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
 
-function calculScore() {
-    var minTime = delai * questions.length; // temps min possible
-    var maxTime = delaiMax * questions.length; // temps maxi pour avoir des points
-    var userTime = elapsedTimeInSeconds() - minTime;
-    // calcul des 2 scores sur 100
-    var scoreReponses = parseInt(score / questions.length * 100);
-    var scoreTemps = parseInt((maxTime - userTime) / maxTime * 100);
-    // calcul coef
-    // var coef = coefTemps / 100;
-    var scoreFinal = parseInt(((100 - coefTemps) * scoreReponses + coefTemps * scoreTemps) / 100);
-    // si aucune bonne reponse, 0
-    if (score == 0) {
-        scoreFinal = 0;
-    }
-    // affichage
-    $("#quiz").html("<h2>Votre score est de <span id='scoreDisplay'>" + scoreFinal + "</span>/100.");
-    $("#quiz").append("<p>Vous avez obtenu " + score + " bonnes réponses sur " + questions.length + " en " + $("#timer").text() + "s.</p>");
-    if (scoreFinal >= 75) {
-        $("#scoreDisplay").addClass("green");
-    } else if (scoreFinal > 50) {
-        $("#scoreDisplay").addClass("orange");
-    } else {
-        $("#scoreDisplay").addClass("red");
-    }
-}
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
 
-function updateTimer() {
-    // calcul secondes ecoulees depuis debut du test
-    secs = elapsedTimeInSeconds();
-    mins = secs / 60;
-    secs = parseInt(secs % 60);
-    mins = parseInt(mins % 60);
+        display.textContent = minutes + ":" + seconds;
 
-    // ajoute les zéros devant les chiffres
-    mins = (mins < 10 ? "0" : "") + mins;
-    secs = (secs < 10 ? "0" : "") + secs;
-
-    $("#timer").text(mins + ":" + secs);
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
 }
